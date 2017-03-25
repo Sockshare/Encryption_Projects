@@ -1,0 +1,28 @@
+import md5
+
+def crack_md5(hash_str, salt,file):
+    h = hash_str
+    s0 = salt
+    s1 = salt.decode('hex')
+
+    f = open(file)
+
+    for line in f:
+        ln = line.strip()
+
+        for p in [
+          s0 + ln,
+          s1 + ln,
+          s0 + ln + s0,
+          s1 + ln + s1,
+          ln + s0,
+          s1 + ln
+        ]:
+            p = md5.md5(p).hexdigest()
+            if p == h:
+                print ln
+
+hash = 'enter your hash'
+salt = 'enter your salt'
+filename = "Absolute filepath for your wordlist"
+crack_md5(hash, salt, filename)
